@@ -11,7 +11,6 @@ ENV HADOOP_HOME="/opt/hadoop"
 ENV LISTENER_PATH="/opt/atlas/hook/hive"
 ENV METASTORE_HOME="/opt/hive-metastore"
 ENV CLASSPATH="${METASTORE_HOME}/lib/"
-ENV ATLAS_LISTENER_VERSION="0.1.1"
 
 # Download and install jar packages to Hive Backfill script
 RUN mkdir -p /opt/atlas/hook/hive/atlas-hive-plugin-impl && \
@@ -61,11 +60,6 @@ RUN mkdir -p /opt/atlas/hook/hive/atlas-hive-plugin-impl && \
 
 # Download hive-bridge to run Backfill
 RUN wget -qO- https://repo1.maven.org/maven2/org/apache/atlas/hive-bridge/2.1.0/hive-bridge-2.1.0.jar > hive-bridge-2.1.0.jar && mv hive-bridge-2.1.0.jar ${LISTENER_PATH}/atlas-hive-plugin-impl
-
-# Download and install personalized Atlas Listener
-RUN wget -qO- \
-    https://nexus.quintoandar.com.br/repository/5a-maven-github-packages/br/com/quintoandar/atlas-hive-metastore-listener/${ATLAS_LISTENER_VERSION}/atlas-hive-metastore-listener-${ATLAS_LISTENER_VERSION}.jar > atlas-hive-metastore-listener-${ATLAS_LISTENER_VERSION}.jar && \
-    mv atlas-hive-metastore-listener-${ATLAS_LISTENER_VERSION}.jar ${LISTENER_PATH}/atlas-hive-plugin-impl
 
 # Add jars to the Hive Metastore classpath
 RUN mkdir -p ${METASTORE_HOME}/lib/ && \
