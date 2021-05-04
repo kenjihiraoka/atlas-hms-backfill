@@ -78,9 +78,11 @@ RUN mkdir -p ${METASTORE_HOME}/lib/ && \
 COPY /hive-metastore/hms-configuration/* ${METASTORE_HOME}/conf/
 COPY /hive-metastore/atlas-configuration/atlas-application.properties ${METASTORE_HOME}/conf/
 COPY /hive-metastore/atlas-configuration/import-hive.sh ${LISTENER_PATH}
+COPY entrypoint.sh ${LISTENER_PATH}
 
-RUN chmod 775 ${LISTENER_PATH}/import-hive.sh
+RUN chmod 775 ${LISTENER_PATH}/import-hive.sh && \
+    chmod 775 ${LISTENER_PATH}/entrypoint.sh
 
 WORKDIR ${METASTORE_HOME}
 
-CMD ${LISTENER_PATH}/import-hive.sh
+ENTRYPOINT ["/opt/atlas/hook/hive/entrypoint.sh"]
