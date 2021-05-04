@@ -61,10 +61,6 @@ RUN mkdir -p /opt/atlas/hook/hive/atlas-hive-plugin-impl && \
 # Download hive-bridge to run Backfill
 RUN wget -qO- https://repo1.maven.org/maven2/org/apache/atlas/hive-bridge/2.1.0/hive-bridge-2.1.0.jar > hive-bridge-2.1.0.jar && mv hive-bridge-2.1.0.jar ${LISTENER_PATH}/atlas-hive-plugin-impl
 
-# Add jars to the Hive Metastore classpath
-RUN mkdir -p ${METASTORE_HOME}/lib/ && \
-    cp -r ${LISTENER_PATH}/atlas-hive-plugin-impl/* ${METASTORE_HOME}/lib/
-
 # Download and install Atlas Listener dependencies
 RUN wget -qO- https://repo1.maven.org/maven2/org/apache/hive/hive-exec/3.0.0/hive-exec-3.0.0.jar > hive-exec-3.0.0.jar && \
     mv hive-exec-3.0.0.jar /opt/hive-exec.jar && \
@@ -74,6 +70,10 @@ RUN wget -qO- https://repo1.maven.org/maven2/org/apache/hive/hive-exec/3.0.0/hiv
 RUN wget -qO- https://jdbc.postgresql.org/download/postgresql-42.2.16.jar > postgresql-42.2.16.jar && \
     mv postgresql-42.2.16.jar /opt/postgresql-jdbc.jar && \
     cp /opt/postgresql-jdbc.jar ${LISTENER_PATH}/atlas-hive-plugin-impl/
+
+# Add jars to the Hive Metastore classpath
+RUN mkdir -p ${METASTORE_HOME}/lib/ && \
+    cp -r ${LISTENER_PATH}/atlas-hive-plugin-impl/* ${METASTORE_HOME}/lib/
 
 COPY /hive-metastore/hms-configuration/* ${METASTORE_HOME}/conf/
 COPY /hive-metastore/atlas-configuration/atlas-application.properties ${METASTORE_HOME}/conf/
