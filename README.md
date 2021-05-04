@@ -41,8 +41,9 @@ The script asks for a user and password for the Apache Atlas service.
 
 ### How it works
 
-The script will access the Hive Metastore database to get all databases and tables, it will check if those objects are already
-register at Apache Atlas backend (HBase db), and we have some cases:
+
+The script access the Hive Metastore database to get all databases and tables, it checks if those objects are already registered
+at Apache Atlas backend (HBase db), and we have some cases:
 
 1. There are not register:
     - Then, the script import all those objects directly to the Hbase and create the corresponding messages to the topic `ATLAS_ENTITIES`.
