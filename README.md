@@ -37,6 +37,12 @@ Now to run the script, run:
 docker run -ti --rm --name atlas-backfill atlas-backfill
 ```
 
+If you have a VPN layer at your machine host, its need to add the flag `--add-host` to the `docker run` command.
+
+```bash
+docker run -ti --rm --add-host=<postgres_db>:<ip> --add-host=<atlas_host>:<ip> --name atlas-backfill atlas-backfill
+```
+
 The script asks for a user and password for the Apache Atlas service.
 
 ### How it works
@@ -49,6 +55,6 @@ at Apache Atlas backend (HBase db), and we have some cases:
     - Then, the script import all those objects directly to the Hbase and create the corresponding messages to the topic `ATLAS_ENTITIES`.
 
 2. There are register:
-    - Then, the script update the entity at Apache Atlas backend with new information from HMS database and crete the corresponding messages to the topic `ATLAS_ENTITIES`.
+    - Then, the script update the entity at Apache Atlas backend with new information from HMS database and create the corresponding messages to the topic `ATLAS_ENTITIES`.
 
 > Obs: the topic ATLAS_HOOK does not register those operations from backfill, because the script uses the Atlas backend (HBase) directly.
