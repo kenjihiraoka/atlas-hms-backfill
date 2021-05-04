@@ -31,13 +31,46 @@ First, build the docker image with the following command:
 docker build -t atlas-backfill .
 ```
 
-Now to run the script, run:
+Now to run the script, we have 4 cases:
 
-```bash
-docker run -ti --rm --name atlas-backfill atlas-backfill
-```
+1. Import all entities from Hive Metastore to Apache Atlas:
 
-If you have a VPN layer at your machine host, its need to add the flag `--add-host` to the `docker run` command.
+    ```bash
+    docker run -ti --rm --name atlas-backfill atlas-backfill
+    ```
+
+2. Import all entities from a specific database:
+
+    ```bash
+    docker run -ti --rm --name atlas-backfill atlas-backfill -d <database_name>*
+    
+    docker run -ti --rm --name atlas-backfill atlas-backfill --database <database_name>*
+    ```
+
+3. Import a specific entity (table):
+
+    ```bash
+    docker run -ti --rm --name atlas-backfill atlas-backfill -t <database_name>.<table_name>
+    
+    docker run -ti --rm --name atlas-backfill atlas-backfill --table <database_name>.<table_name>
+    ```
+
+4. Import data according to a file:
+
+    ```bash
+    docker run -ti --rm --name atlas-backfill atlas-backfill -f <file_path>
+    ```
+   
+   This file must be the following format:
+   
+   ```txt
+   database1:tbl1
+   database1:tbl2
+   database2:tbl1
+   database2:tbl3
+   ```
+
+**If you have a VPN layer at your machine host, its need to add the flag `--add-host` to the `docker run` command.**
 
 ```bash
 docker run -ti --rm --add-host=<postgres_db>:<ip> --add-host=<atlas_host>:<ip> --name atlas-backfill atlas-backfill
